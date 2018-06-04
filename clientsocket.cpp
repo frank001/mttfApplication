@@ -40,6 +40,9 @@ void clientSocket::connected() {
 bool clientSocket::getStatus() {return status;}
 
 void clientSocket::readyRead() {
+    QByteArray ba = socket->readAll();
+    emit hasReadSome(ba);
+    /*
     QDataStream in(socket);
     //in.setVersion(QDataStream::Qt_5_10);
     for (;;) {
@@ -59,7 +62,7 @@ void clientSocket::readyRead() {
 
         emit hasReadSome(str);
         m_nNextBlockSize = 0;
-    }
+    }*/
 }
 
 void clientSocket::closeConnection()

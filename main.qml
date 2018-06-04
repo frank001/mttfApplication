@@ -41,39 +41,56 @@ Window {
     }
 
 
-        Text {
-            id: status
-            anchors.centerIn: parent
-            text: backend.currentStatus ? "CONNECTED" : "DISCONNECTED"
-            font.weight: Font.Bold
+    Text {
+        id: status
+        anchors.centerIn: parent
+        text: backend.currentStatus ? "CONNECTED" : "DISCONNECTED"
+        font.weight: Font.Bold
+    }
+    Button {
+        id: btn_connect
+        //anchors.left: parent.left
+        text: "Connect to server"
+        anchors.right: parent.right
+        anchors.top: parent.top;
+        width: 200
+        //color: enabled ? this.down ? "#78C37F" : "#87DB8D" : "gray"
+        //border.color: "#78C37F"
+        onClicked: {
+            ti.append(addMsg("Connecting to server..."));
+            backend.connectClicked();
+            this.enabled = false;
         }
-        Button {
-            id: btn_connect
-            //anchors.left: parent.left
-            text: "Connect to server"
-            y:500
-            x:500
-            //color: enabled ? this.down ? "#78C37F" : "#87DB8D" : "gray"
-            //border.color: "#78C37F"
-            onClicked: {
-                ti.append(addMsg("Connecting to server..."));
-                backend.connectClicked();
-                this.enabled = false;
-            }
+    }
+    Button {
+        id: btn_send
+        enabled: !btn_connect.enabled
+        text: "Send message"
+        anchors.right: parent.right
+        y:btn_connect.height
+        width:200
+        //color: enabled ? this.down ? "#6FA3D2" : "#7DB7E9" : "gray"
+        //border.color: "#6FA3D2"
+        onClicked: {
+            ti.append(addMsg("Sending message..."));
+            backend.sendClicked(msgToSend.text);
         }
-                Button {
-                    id: btn_disconnect
-                    enabled: !btn_connect.enabled
-                    anchors.right: parent.right
-                    text: "Disconnect from server"
-                    //color: enabled ? this.down ? "#DB7A74" : "#FF7E79" : "gray"
-                    //border.color: "#DB7A74"
-                    onClicked: {
-                        ti.append(addMsg("Disconnecting from server..."));
-                        backend.disconnectClicked();
-                        btn_connect.enabled = true;
-                    }
-                }
+    }
+    Button {
+        id: btn_disconnect
+        enabled: !btn_connect.enabled
+        anchors.right: parent.right
+        y: btn_connect.height + btn_send.height
+        text: "Disconnect from server"
+        width:200
+        //color: enabled ? this.down ? "#DB7A74" : "#FF7E79" : "gray"
+        //border.color: "#DB7A74"
+        onClicked: {
+            ti.append(addMsg("Disconnecting from server..."));
+            backend.disconnectClicked();
+            btn_connect.enabled = true;
+        }
+    }
 
 
             TextArea {
@@ -104,17 +121,7 @@ Window {
                     }
                 }
 
-                Button {
-                    id: btn_send
-                    enabled: !btn_connect.enabled
-                    text: "Send"
-                    //color: enabled ? this.down ? "#6FA3D2" : "#7DB7E9" : "gray"
-                    //border.color: "#6FA3D2"
-                    onClicked: {
-                        ti.append(addMsg("Sending message..."));
-                        backend.sendClicked(msgToSend.text);
-                    }
-                }
+
 
 
 
