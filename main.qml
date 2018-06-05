@@ -91,6 +91,17 @@ Window {
             btn_connect.enabled = true;
         }
     }
+    TextInput {
+        id: msgToSend
+        anchors.right: parent.right
+        y: btn_send.height + btn_connect.height + btn_disconnect.height+10;
+        leftPadding: 10
+        rightPadding: 10
+        text: "getConfig"
+        width: 200
+        font.pixelSize: 14
+        clip: true
+    }
 
 
             TextArea {
@@ -104,21 +115,12 @@ Window {
 
             Rectangle {
                     Layout.fillWidth: true
-                    height: btn_send.height
+                    height: btn_send.height + btn_connect.height + btn_disconnect.height+10;
                     color: "#F4F2F5"
                     border.color: "gray"
                     border.width: 1
 
-                    TextInput {
-                        id: msgToSend
-                        anchors.verticalCenter: parent.verticalCenter
-                        leftPadding: 10
-                        rightPadding: 10
-                        text: "TEST"
-                        width: parent.width
-                        font.pixelSize: 14
-                        clip: true
-                    }
+
                 }
 
 
