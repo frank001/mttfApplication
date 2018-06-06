@@ -28,7 +28,10 @@ Window {
         }
 
         onSomeMessage: {
+            //Received result from server
+            while (ti.length>400) ti.remove(100,0);       //TODO: improve this stuff, this isn't right
             ti.append(addMsg(msg));
+
         }
         onSomeError: {
             ti.append(addMsg("Error! " + err));
@@ -72,7 +75,7 @@ Window {
         //color: enabled ? this.down ? "#6FA3D2" : "#7DB7E9" : "gray"
         //border.color: "#6FA3D2"
         onClicked: {
-            ti.append(addMsg("Sending message..."));
+            ti.append(addMsg("Sending message: " + msgToSend.text));
             backend.sendClicked(msgToSend.text);
         }
     }
