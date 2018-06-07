@@ -50,6 +50,7 @@ Window {
         text: backend.currentStatus ? "CONNECTED" : "DISCONNECTED"
         font.weight: Font.Bold
     }
+
     Button {
         id: btn_connect
         //anchors.left: parent.left
@@ -94,37 +95,87 @@ Window {
             btn_connect.enabled = true;
         }
     }
+    Button {
+        id: btnVibrateOn;
+        enabled: !btn_connect.enabled
+        anchors.right:  parent.right
+        y: 4*btn_connect.height
+        text:"Vibrate On"
+        width:200
+        onClicked: {
+            backend.sendClicked("setVibrate", "1");
+        }
+    }
+
+    Button {
+        id: btnVibrateOff;
+        enabled: !btn_connect.enabled
+        anchors.right:  parent.right
+        y: 5*btn_connect.height
+        text:"Vibrate Off"
+        width:200
+        onClicked: {
+            backend.sendClicked("setVibrate", "0");
+        }
+    }
+    Button {
+        id: btnTubesOn;
+        enabled: !btn_connect.enabled
+        anchors.right:  parent.right
+        y: 7*btn_connect.height
+        text:"Tubes On"
+        width:200
+        onClicked: {
+            backend.sendClicked("setTubes", "1");
+        }
+    }
+
+    Button {
+        id: btnTubesOff;
+        enabled: !btn_connect.enabled
+        anchors.right:  parent.right
+        y: 8*btn_connect.height
+        text:"Tubes Off"
+        width:200
+        onClicked: {
+            backend.sendClicked("setTubes", "0");
+        }
+    }
+
+
+
+
     TextInput {
         id: msgToSend
-        anchors.right: parent.right
-        y: btn_send.height + btn_connect.height + btn_disconnect.height+10;
+        anchors.horizontalCenter: parent.horizontalCenter
+        y:10
         leftPadding: 10
         rightPadding: 10
-        text: "getConfig"
+        text: "{ \"command\": \"getConfig\" }"
         width: 200
         font.pixelSize: 14
         clip: true
     }
 
 
-            TextArea {
-                id: ti
-                readOnly: true
-                selectByMouse : true
-                font.pixelSize: 14
-                wrapMode: TextInput.WrapAnywhere
-                    }
+    TextArea {
+        id: ti
+        readOnly: true
+        selectByMouse : true
+        font.pixelSize: 14
+        wrapMode: TextInput.WrapAnywhere
+    }
 
 
-            Rectangle {
-                    Layout.fillWidth: true
-                    height: btn_send.height + btn_connect.height + btn_disconnect.height+10;
-                    color: "#F4F2F5"
-                    border.color: "gray"
-                    border.width: 1
+    Rectangle {
+            Layout.fillWidth: true
+            height: btn_send.height + btn_connect.height + btn_disconnect.height+10;
+            color: "#F4F2F5"
+            border.color: "red"
+            border.width: 1
 
 
-                }
+        }
 
 
 

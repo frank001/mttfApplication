@@ -52,7 +52,9 @@ void BackEnd::connectClicked() {
     client->connectSocket();
 }
 
-void BackEnd::sendClicked(QString msg) {
+
+void BackEnd::sendClicked(QString command, QString value) {
+    QString msg="{ \"command\": \"" +command + "\", \"value\" : \""+value+"\" }";
     QByteArray arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     //out.setVersion(QDataStream::Qt_5_10);
@@ -61,8 +63,21 @@ void BackEnd::sendClicked(QString msg) {
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
     QByteArray ba = msg.toUtf8();
+
     client->socket->write(ba);
-    //client->socket->write(arrBlock);
+
+}
+
+void BackEnd::sendClicked(QString raw) {
+    QByteArray arrBlock;
+    QDataStream out(&arrBlock, QIODevice::WriteOnly);
+    out << quint16(0) << raw;
+
+    out.device()->seek(0);
+    out << quint16(arrBlock.size() - sizeof(quint16));
+    QByteArray ba = raw.toUtf8();
+    client->socket->write(ba);
+
 }
 
 void BackEnd::disconnectClicked() {

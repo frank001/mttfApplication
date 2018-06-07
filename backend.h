@@ -21,7 +21,8 @@ public slots:
     void setStatus(bool newStatus);
     void receivedSomething(QString msg);
     void gotError(QAbstractSocket::SocketError err);
-    void sendClicked(QString msg);
+    void sendClicked(QString raw);
+    void sendClicked(QString command, QString value);
     void connectClicked();
     void disconnectClicked();
 
