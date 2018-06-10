@@ -21,7 +21,7 @@ Window {
 
         onStatusChanged: {
             //console.log(currentStatus);
-            ti.append(addMsg(newStatus));
+            ti.insert(0, addMsg(newStatus));
             if (currentStatus !== true) {
                 btn_connect.enabled = true;
             }
@@ -29,12 +29,15 @@ Window {
 
         onSomeMessage: {
             //Received result from server
-            while (ti.length>400) ti.remove(100,0);       //TODO: improve this stuff, this isn't right
-            ti.append(addMsg(msg));
+
+            ti.insert(0, addMsg(msg));
+            //while (ti.length>400) ti.remove(100,0);       //TODO: improve this stuff, this isn't right
+            //ti.append(addMsg(msg));
+            //ti.update();
 
         }
         onSomeError: {
-            ti.append(addMsg("Error! " + err));
+            ti.insert(0, addMsg("Error! " + err));
             if (currentStatus !== true) {
                 backend.disconnectClicked();
             }
@@ -61,7 +64,7 @@ Window {
         //color: enabled ? this.down ? "#78C37F" : "#87DB8D" : "gray"
         //border.color: "#78C37F"
         onClicked: {
-            ti.append(addMsg("Connecting to server..."));
+            ti.insert(0, addMsg("Connecting to server...\n"));
             backend.connectClicked();
             this.enabled = false;
         }
@@ -76,7 +79,7 @@ Window {
         //color: enabled ? this.down ? "#6FA3D2" : "#7DB7E9" : "gray"
         //border.color: "#6FA3D2"
         onClicked: {
-            ti.append(addMsg("Sending message: " + msgToSend.text));
+            ti.insert(0, addMsg("Sending message: " + msgToSend.text));
             backend.sendClicked(msgToSend.text);
         }
     }
@@ -90,7 +93,7 @@ Window {
         //color: enabled ? this.down ? "#DB7A74" : "#FF7E79" : "gray"
         //border.color: "#DB7A74"
         onClicked: {
-            ti.append(addMsg("Disconnecting from server..."));
+            ti.insert(0, addMsg("Disconnecting from server..."));
             backend.disconnectClicked();
             btn_connect.enabled = true;
         }
@@ -182,12 +185,12 @@ Window {
 
 
         Component.onCompleted: {
-            ti.text = addMsg("Application started\n- - - - - -", false);
+            ti.text = addMsg("Application started\n", false);
         }
 
         function addMsg(someText)
         {
-            return "[" + currentTime() + "] " + someText;
+            return "[" + currentTime() + "] " + someText + "\n";
         }
 
         function currentTime()
