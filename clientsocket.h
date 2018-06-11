@@ -28,7 +28,7 @@ public slots:
 
 signals:
     void statusChanged(bool);
-    void hasReadSome(QString msg);
+    void hasReadSome(QByteArray msg);
 
 public:
     QTcpSocket *socket;

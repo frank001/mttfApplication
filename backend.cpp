@@ -1,5 +1,8 @@
 #include "backend.h"
 #include <QDataStream>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QMetaEnum>
 
 BackEnd::BackEnd(QObject *parent): QObject(parent) {
     client = new clientSocket();
@@ -21,8 +24,45 @@ void BackEnd::setStatus(bool newStatus) {
     else { emit statusChanged("DISCONNECTED"); }
 }
 
-void BackEnd::receivedSomething(QString msg) {
-    emit someMessage(msg);
+void BackEnd::receivedSomething(QByteArray msg) {
+    QMetaObject MetaObject = this->staticMetaObject;
+    QMetaEnum MetaEnum = MetaObject.enumerator(MetaObject.indexOfEnumerator("eResponse"));
+
+    QJsonDocument jdData;
+    jdData = QJsonDocument::fromBinaryData(msg);
+
+
+    QJsonObject joData = jdData.object();
+    QString test = jdData.toJson();
+
+    if (joData.keys().length()==0) {
+        QJsonObject error;
+        error.insert("error", QJsonValue::fromVariant(msg));
+        error.insert("message", QJsonValue::fromVariant("No valid data received."));
+        QJsonDocument jdError(error);
+        jdData = jdError;
+    } else {
+        QString key = joData.keys().at(0);
+
+        //QString cmd = request.value("command").toString();
+
+        switch (MetaEnum.keysToValue(key.toLatin1())) {
+        case config:
+            jdConfig = jdData;
+            //emit config change
+            break;
+        case state:
+            jdState = jdData;
+            //emit state change
+            break;
+        }
+
+
+    }
+    QString c = jdConfig.toJson();
+    QString s = jdState.toJson();
+
+    emit someMessage(jdData.toJson());
 }
 
 void BackEnd::gotError(QAbstractSocket::SocketError err) {
