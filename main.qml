@@ -145,6 +145,50 @@ Window {
         }
     }
 
+    Button {
+            id: btn01mlux;
+            enabled: !btn_connect.enabled
+            anchors.right:  parent.right
+            y: 9*btn_connect.height
+            text:"0.1 mlux"
+            width:70
+            onClicked: {
+                backend.sendClicked("set01mlux", "0");
+            }
+        }
+        Button {
+            id: btn5mlux;
+            enabled: !btn_connect.enabled
+            anchors.right:  btn01mlux.left
+            y: 9*btn_connect.height
+            text:"5 mlux"
+            width:70
+            onClicked: {
+                backend.sendClicked("set5mlux", "0");
+            }
+        }
+        Button {
+            id: btn50lux;
+            enabled: !btn_connect.enabled
+            anchors.right:  btn5mlux.left
+            y: 9*btn_connect.height
+            text:"50 lux"
+            width:70
+            onClicked: {
+                backend.sendClicked("set50lux", "0");
+            }
+        }
+        Button {
+            id: btnLightOff;
+            enabled: !btn_connect.enabled
+            anchors.right:  btn50lux.left
+            y: 9*btn_connect.height
+            text:"Off"
+            width:70
+            onClicked: {
+                backend.sendClicked("setLights", "0");
+            }
+        }
 
 
 
