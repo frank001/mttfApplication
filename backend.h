@@ -20,6 +20,8 @@ signals:
     void statusChanged(QString newStatus);
     void someError(QString err);
     void someMessage(QByteArray msg);
+    void stateChange(QByteArray data);
+    void configChange(QByteArray data);
 
 public slots:
     void setStatus(bool newStatus);

@@ -24,12 +24,14 @@ Window {
             ti.insert(0, addMsg(newStatus));
             if (currentStatus !== true) {
                 btn_connect.enabled = true;
+            } else {
+                backend.sendClicked("{ \"command\": \"getConfig\" }");
             }
         }
 
         onSomeMessage: {
             //Received result from server
-
+            var data = msg;
             ti.insert(0, addMsg(msg));
             //while (ti.length>400) ti.remove(100,0);       //TODO: improve this stuff, this isn't right
             //ti.append(addMsg(msg));
@@ -43,9 +45,53 @@ Window {
             }
             btn_connect.enabled = true;
         }
+        onConfigChange: {
+            backend.sendClicked("{ \"command\": \"getState\" }");
+            var j=0;
+            j++;
+            //backend.sendClicked("{ \"command\": \"getState\" }");
+        }
+
+        onStateChange: {
+            var machineState = JSON.parse(data);
+
+            if (machineState["state"].tubes===1)
+                position.color="green";
+            else
+                position.color="darkgreen";
+            state.text = data.toString().replace("\n","").replace("\r","");
+        }
+
+
 
     }
 
+    Rectangle {
+        id: position
+        width: parent.width/20
+        height: width
+        color: "darkgreen"
+        x:200
+        y:200
+        border.color: "black"
+        border.width: width/4.5
+        radius: width*.5
+        Text {
+            anchors.centerIn: parent
+            color: "yellow"
+            font.pointSize: parent.width/6
+            text: "8030673"
+        }
+    }
+
+    Text {
+        id: state
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 200
+
+        color: "red"
+    }
 
     Text {
         id: status
@@ -153,7 +199,7 @@ Window {
             text:"0.1 mlux"
             width:70
             onClicked: {
-                backend.sendClicked("set01mlux", "0");
+                backend.sendClicked("setLight", "1");
             }
         }
         Button {
@@ -164,7 +210,7 @@ Window {
             text:"5 mlux"
             width:70
             onClicked: {
-                backend.sendClicked("set5mlux", "0");
+                backend.sendClicked("setLight", "2");
             }
         }
         Button {
@@ -175,7 +221,7 @@ Window {
             text:"50 lux"
             width:70
             onClicked: {
-                backend.sendClicked("set50lux", "0");
+                backend.sendClicked("setLight", "3");
             }
         }
         Button {
@@ -186,7 +232,7 @@ Window {
             text:"Off"
             width:70
             onClicked: {
-                backend.sendClicked("setLights", "0");
+                backend.sendClicked("setLight", "0");
             }
         }
 

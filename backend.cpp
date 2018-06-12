@@ -49,13 +49,16 @@ void BackEnd::receivedSomething(QByteArray msg) {
         switch (MetaEnum.keysToValue(key.toLatin1())) {
         case config:
             jdConfig = jdData;
+            emit configChange(jdConfig.toJson());
             //emit config change
             break;
         case state:
             jdState = jdData;
+            emit stateChange(jdState.toJson());
             //emit state change
             break;
         }
+
 
 
     }
@@ -95,13 +98,15 @@ void BackEnd::connectClicked() {
 
 void BackEnd::sendClicked(QString command, QString value) {
     QString msg="{ \"command\": \"" +command + "\", \"value\" : \""+value+"\" }";
-    QByteArray arrBlock;
+    /*QByteArray arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     //out.setVersion(QDataStream::Qt_5_10);
     out << quint16(0) << msg;
 
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
+    */
+
     QByteArray ba = msg.toUtf8();
 
     client->socket->write(ba);
