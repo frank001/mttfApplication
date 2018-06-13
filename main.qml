@@ -192,51 +192,72 @@ Window {
     }
 
     Button {
-            id: btn01mlux;
-            enabled: !btn_connect.enabled
-            anchors.right:  parent.right
-            y: 9*btn_connect.height
-            text:"0.1 mlux"
-            width:70
-            onClicked: {
-                backend.sendClicked("setLight", "1");
-            }
+        id: btn01mlux;
+        enabled: !btn_connect.enabled
+        anchors.right:  parent.right
+        y: 9*btn_connect.height
+        text:"0.1 mlux"
+        width:70
+        onClicked: {
+            backend.sendClicked("setLight", "1");
         }
-        Button {
-            id: btn5mlux;
-            enabled: !btn_connect.enabled
-            anchors.right:  btn01mlux.left
-            y: 9*btn_connect.height
-            text:"5 mlux"
-            width:70
-            onClicked: {
-                backend.sendClicked("setLight", "2");
-            }
+    }
+    Button {
+        id: btn5mlux;
+        enabled: !btn_connect.enabled
+        anchors.right:  btn01mlux.left
+        y: 9*btn_connect.height
+        text:"5 mlux"
+        width:70
+        onClicked: {
+            backend.sendClicked("setLight", "2");
         }
-        Button {
-            id: btn50lux;
-            enabled: !btn_connect.enabled
-            anchors.right:  btn5mlux.left
-            y: 9*btn_connect.height
-            text:"50 lux"
-            width:70
-            onClicked: {
-                backend.sendClicked("setLight", "3");
-            }
+    }
+    Button {
+        id: btn50lux;
+        enabled: !btn_connect.enabled
+        anchors.right:  btn5mlux.left
+        y: 9*btn_connect.height
+        text:"50 lux"
+        width:70
+        onClicked: {
+            backend.sendClicked("setLight", "3");
         }
-        Button {
-            id: btnLightOff;
-            enabled: !btn_connect.enabled
-            anchors.right:  btn50lux.left
-            y: 9*btn_connect.height
-            text:"Off"
-            width:70
-            onClicked: {
-                backend.sendClicked("setLight", "0");
-            }
+    }
+    Button {
+        id: btnLightOff;
+        enabled: !btn_connect.enabled
+        anchors.right:  btn50lux.left
+        y: 9*btn_connect.height
+        text:"Off"
+        width:70
+        onClicked: {
+            backend.sendClicked("setLight", "0");
         }
-
-
+    }
+//{ "command": "setCycle","value":"0" }
+    Button {
+        id: btnCycleOff;
+        enabled: !btn_connect.enabled
+        anchors.right:  parent.right
+        y: 10*btn_connect.height
+        text:"Cycle Off"
+        width:70
+        onClicked: {
+            backend.sendClicked("setCycle", "0");
+        }
+    }
+    Button {
+        id: btnCycleOn;
+        enabled: !btn_connect.enabled
+        anchors.right:  btnCycleOff.left
+        y: 10*btn_connect.height
+        text:"Cycle On"
+        width:70
+        onClicked: {
+            backend.sendClicked("setCycle", "1");
+        }
+    }
 
     TextInput {
         id: msgToSend
