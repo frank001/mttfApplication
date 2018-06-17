@@ -7,6 +7,7 @@ import io.qt.BackEnd 1.0
 
 //https://github.com/retifrav/client-server/blob/master/client-server-qml/clientPart/main.qml
 
+
 Window {
     visible: true
     width: 700
@@ -458,6 +459,10 @@ Window {
         var sprite;
         var i,j;
         j=0;
+
+        saVibrateX.stop();
+        saVibrateY.stop();
+
         for (i=0;i<3;i++){
             component = Qt.createComponent("Position.qml");     //1st row
             sprite = component.createObject(positions, { "id": "position"+j, "text": "EMPTY"+j, "xcount": i, "xoffset": 2 , "ycount" : -2 });

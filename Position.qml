@@ -1,5 +1,6 @@
 import QtQuick 2.0
 
+
 Item {
     id: item
     property alias text: position.text
@@ -20,7 +21,7 @@ Item {
 
         width: parent.width
         height: width
-        color: "darkgreen"
+        color: "#013605"
         border.color: "black"
         border.width: width/4.5
         radius: width*.5
