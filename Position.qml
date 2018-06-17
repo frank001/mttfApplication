@@ -14,6 +14,7 @@ Item {
     property int xoffset: 0
     property int ycount: 0
     property alias color: pHolder.color
+
     //property alias width: pHolder.width
     //width:parent.width
     Rectangle {     //TODO: make this an object to include 18 times. almost done. Done.

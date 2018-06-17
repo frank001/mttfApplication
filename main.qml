@@ -51,6 +51,7 @@ Window {
             config.text = data.toString().replace("\n","").replace("\r","");
         }
 
+
         onStateChange: {
             var machineState = JSON.parse(data);
             var color=machineState["state"].tubes?"#05a018":"#013605";
