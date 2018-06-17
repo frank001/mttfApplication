@@ -12,6 +12,9 @@ BackEnd::BackEnd(QObject *parent): QObject(parent) {
     connect(client, &clientSocket::statusChanged, this, &BackEnd::setStatus);
         // FIXME change this connection to the new syntax
     connect(client->socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(gotError(QAbstractSocket::SocketError)));
+
+    client->connectSocket();
+
 }
 
 bool BackEnd::getStatus() {
@@ -30,7 +33,7 @@ void BackEnd::receivedSomething(QByteArray msg) {
 
     QJsonDocument jdData;
     jdData = QJsonDocument::fromBinaryData(msg);
-
+    QString sData = jdData.toJson();
 
     QJsonObject joData = jdData.object();
     QString test = jdData.toJson();
@@ -47,25 +50,24 @@ void BackEnd::receivedSomething(QByteArray msg) {
         //QString cmd = request.value("command").toString();
 
         switch (MetaEnum.keysToValue(key.toLatin1())) {
-        case config:
-            jdConfig = jdData;
-            emit configChange(jdConfig.toJson());
-            //emit config change
-            break;
         case state:
             jdState = jdData;
             emit stateChange(jdState.toJson());
-            //emit state change
+            if (bInitialization)
+                sendClicked("getConfig", "");
+            break;
+        case config:
+            jdConfig = jdData;
+            emit configChange(jdConfig.toJson());
+            if (bInitialization)
+                bInitialization=false;
+            break;
+        default:
+            emit someMessage(jdData.toJson());
             break;
         }
 
-
-
     }
-    QString c = jdConfig.toJson();
-    QString s = jdState.toJson();
-
-    emit someMessage(jdData.toJson());
 }
 
 void BackEnd::gotError(QAbstractSocket::SocketError err) {
@@ -129,4 +131,6 @@ void BackEnd::disconnectClicked() {
     client->closeConnection();
 }
 
-
+void BackEnd::Configuration() {
+    int i =0;
+}

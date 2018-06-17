@@ -11,6 +11,14 @@ class BackEnd : public QObject
     Q_PROPERTY(bool currentStatus READ getStatus NOTIFY statusChanged)
     Q_ENUMS(eResponse)
 
+private:
+    bool bInitialization = true;
+    clientSocket *client;
+    QJsonDocument jdConfig;
+    QJsonDocument jdState;
+private slots:
+    void Configuration();
+
 public:
     explicit BackEnd(QObject *parent = nullptr);
     bool getStatus();
@@ -32,10 +40,7 @@ public slots:
     void connectClicked();
     void disconnectClicked();
 
-private:
-    clientSocket *client;
-    QJsonDocument jdConfig;
-    QJsonDocument jdState;
+
 
 };
 

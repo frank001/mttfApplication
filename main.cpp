@@ -3,6 +3,7 @@
 #include "clientsocket.h"
 #include "backend.h"
 
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -16,10 +17,8 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    //clientSocket *socket = new clientSocket();
-    //socket->connectSocket();
+
 
     return app.exec();
 
-    //This should be on git.
 }
