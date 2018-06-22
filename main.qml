@@ -95,7 +95,7 @@ Window {
             //border.color:"red"
             anchors.right:parent.right
             anchors.margins: 10
-
+            y:10
 
             Rectangle {
                 id: positions
