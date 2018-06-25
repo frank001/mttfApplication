@@ -20,7 +20,10 @@ Window {
     BackEnd {
 
         id: backend
-        property var lightLevel : [ "OFF", "0.1 mlux", "5 mlux", "50 lux"];
+        property var lightLevel : [ "OFF", "0.54 mlux", "5.4 mlux", "54 lux"];
+        property var machineState : [];
+        property var machineConfig : [];
+        property var portInfo:[];
 
         onStatusChanged: {
             //console.log(currentStatus);
@@ -48,23 +51,32 @@ Window {
             btn_connect.enabled = true;
         }
         onConfigChange: {
+            machineConfig = JSON.parse(data);
             config.text = data.toString().replace("\n","").replace("\r","");
+            for (var i=0;i<cbBaudRate.model.length;i++) {
+                if (cbBaudRate.model[i] === machineConfig["config"]["baudrate"].toString()) {
+                    cbBaudRate.currentIndex=i;
+                    break;
+                }
+            }
         }
 
 
         onStateChange: {
-            var machineState = JSON.parse(data);
-            var color=machineState["state"].tubes?"#05a018":"#013605";
+            machineState = JSON.parse(data)["state"];
+            var color=machineState.tubes?"#05a018":"#013605";
 
             for (var i=0;i<positions.children.length;i++) {
                 positions.children[i].color=color;
             }
 
 
-            liText.text = lightLevel[machineState["state"].light];
+            liText.text = lightLevel[machineState.light];
 
+            txtCycles.text = machineState.cycles;
+            txtHours.text = machineState.cycles / 5;
 
-            if (machineState["state"].vibrate) {
+            if (machineState.vibrate) {
                 saVibrateX.start();
                 saVibrateY.start();
             } else {
@@ -74,6 +86,21 @@ Window {
 
             state.text = data.toString().replace("\n","").replace("\r","");
 
+        }
+        onPortInfo: {
+            portInfo = JSON.parse(data);
+            ports.text = data.toString().replace("\n","").replace("\r","");
+            var opt = [];
+
+            var p = portInfo["ports"];
+            var idx=0
+            for (var i=0;i<portInfo["ports"]["count"];i++) {
+                opt.push(portInfo["ports"][i.toString()]);
+                if (opt[i]===machineConfig["config"]["portname"]) idx=i;
+
+            }
+            cbPorts.model = opt;
+            cbPorts.currentIndex = idx;
         }
 
 
@@ -102,22 +129,21 @@ Window {
                 width:parent.width
                 height: parent.height
                 //anchors.fill: parent
-
                 SequentialAnimation on y  {
                     id: saVibrateY;
 
                     loops: Animation.Infinite;
                     NumberAnimation {
 
-                        from: -1
-                        to: 1
+                        from: -0.5
+                        to: 0.5
                         easing.type: Easing.OutExpo
                         duration: 50
                     }
                     NumberAnimation {
 
-                        from: 1
-                        to:-1
+                        from: 0.5
+                        to:-0.5
                         easing.type: Easing.OutBounce
                         duration: 50
                     }
@@ -128,15 +154,15 @@ Window {
                     loops: Animation.Infinite;
                     NumberAnimation {
 
-                        from: -1
-                        to: 1
+                        from: -0.5
+                        to: 0.5
                         easing.type: Easing.OutExpo
                         duration: 50
                     }
                     NumberAnimation {
 
-                        from: 1
-                        to:-1
+                        from: 0.5
+                        to:-0.5
                         easing.type: Easing.OutBounce
                         duration: 50
                     }
@@ -156,6 +182,31 @@ Window {
                     text: "OFF"
                     x:-width/2
                     y:-height/2
+                }
+            }
+        }
+
+
+        Rectangle {
+            y:300;
+            x:10;
+            Text {
+                text:"Cycles: ";
+                Text {
+                    id:txtCycles
+                    anchors.left:parent.right;
+                    text:"---";
+                }
+            }
+            Text {
+                y: txtCycles.height;
+                text:"Hours: ";
+                Text {
+                    id:txtHours;
+                    anchors.left:parent.right;
+                    width:50;
+                    horizontalAlignment: right;
+                    text:"---";
                 }
             }
         }
@@ -283,6 +334,14 @@ Window {
             anchors.left: state.right
             width: 200
             color: "blue"
+        }
+        Text {
+            id: ports
+            anchors.bottom: parent.bottom
+            //anchors.horizontalCenter: parent.horizontalCenter
+            anchors.right: state.left
+            width: 200
+            color: "green"
         }
 
     }
@@ -429,6 +488,29 @@ Window {
                 backend.disconnectClicked();
                 btn_connect.enabled = true;
             }
+        }
+        ComboBox {
+            id: cbPorts;
+            width:150;
+            anchors.left:parent.left;
+            anchors.bottom: parent.bottom;
+        }
+        ComboBox {
+            id: cbBaudRate;
+            width:150;
+            anchors.left:cbPorts.right;
+            anchors.bottom: parent.bottom;
+            model: [ "9600" , "115200" ];
+        }
+        Button {
+            enabled: false;
+            id : tbUartInit;
+            width:150;
+            anchors.left:cbBaudRate.right;
+            anchors.bottom: parent.bottom;
+            text: "Initialize";
+            onClicked: backend.sendClicked("resetUart", cbPorts.currentText +"," + cbBaudRate.currentText);
+
         }
 
         Text {

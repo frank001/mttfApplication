@@ -12,6 +12,7 @@ BackEnd::BackEnd(QObject *parent): QObject(parent) {
     connect(client, &clientSocket::statusChanged, this, &BackEnd::setStatus);
         // FIXME change this connection to the new syntax
     connect(client->socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(gotError(QAbstractSocket::SocketError)));
+    //connect(client->socket, &QTcpSocket::error, this, &BackEnd::gotError);
 
     client->connectSocket();
 
@@ -24,7 +25,7 @@ bool BackEnd::getStatus() {
 void BackEnd::setStatus(bool newStatus) {
     //qDebug() << "new status is:" << newStatus;
     if (newStatus) { emit statusChanged("CONNECTED"); }
-    else { emit statusChanged("DISCONNECTED"); }
+    else { emit statusChanged("DISCONNECTED"); bInitialization=true; }
 }
 
 void BackEnd::receivedSomething(QByteArray msg) {
@@ -59,6 +60,13 @@ void BackEnd::receivedSomething(QByteArray msg) {
         case config:
             jdConfig = jdData;
             emit configChange(jdConfig.toJson());
+            if (bInitialization)
+                sendClicked("getPorts", "");
+            break;
+        case ports:
+            jdPorts = jdData;
+
+            emit portInfo(jdPorts.toJson());
             if (bInitialization)
                 bInitialization=false;
             break;

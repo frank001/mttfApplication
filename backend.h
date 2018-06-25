@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QMetaEnum>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include "clientsocket.h"
 
 class BackEnd : public QObject
@@ -16,13 +17,16 @@ private:
     clientSocket *client;
     QJsonDocument jdConfig;
     QJsonDocument jdState;
+    QJsonDocument jdPorts;
+
 private slots:
     void Configuration();
 
 public:
     explicit BackEnd(QObject *parent = nullptr);
     bool getStatus();
-    enum eResponse { config, state };
+    enum eResponse { config, state, ports };
+    QJsonObject joPorts;
 
 signals:
     void statusChanged(QString newStatus);
@@ -30,6 +34,7 @@ signals:
     void someMessage(QByteArray msg);
     void stateChange(QByteArray data);
     void configChange(QByteArray data);
+    void portInfo(QByteArray data);
 
 public slots:
     void setStatus(bool newStatus);
