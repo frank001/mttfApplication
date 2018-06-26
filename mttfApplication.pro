@@ -39,6 +39,8 @@ HEADERS += \
     backend.h \
     clientsocket.h
 
-DISTFILES +=
+DISTFILES += \
+    FrmTestForm.ui.qml \
+    FrmTest.qml
 
 

@@ -190,23 +190,28 @@ Window {
         Rectangle {
             y:300;
             x:10;
+            property int pSize : parent.width/30
             Text {
+                font.pointSize: parent.pSize;
                 text:"Cycles: ";
                 Text {
                     id:txtCycles
                     anchors.left:parent.right;
                     text:"---";
+                    font:parent.font
                 }
             }
             Text {
                 y: txtCycles.height;
+                font.pointSize: parent.pSize;
                 text:"Hours: ";
                 Text {
                     id:txtHours;
+
                     anchors.left:parent.right;
                     width:50;
-                    horizontalAlignment: right;
                     text:"---";
+                    font:parent.font
                 }
             }
         }
