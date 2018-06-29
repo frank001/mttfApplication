@@ -30,14 +30,27 @@ Item {
 
         y:parent.parent.height/2 - height/2 + ycount * 1.5 * height
 
+
         Text {
             id:position
-
             anchors.centerIn: parent
             color: "yellow"
             font.pointSize: parent.width/6
             text: "8030673"
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked:  {
+                    var i=0;
+                    i++;
+                    test1.visible=!test1.visible;
+                    test1.positionNumber.text=parent.text;
+                    test1.serialNumber.selectAll();
+                    test1.serialNumber.focus=true;
+                }
+            }
         }
+
     }
 
 

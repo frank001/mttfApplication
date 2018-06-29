@@ -17,6 +17,7 @@ Window {
     title: "Client"
     color: "#CED0D4"
 
+
     BackEnd {
 
         id: backend
@@ -215,7 +216,20 @@ Window {
                 }
             }
         }
-
+        /*Button {
+            id:btnTest
+            x:100
+            y:100
+            text: "Test"
+            //onClicked: test1.show();
+        }*/
+        TestForm {
+            id:test1
+            visible: false;
+            anchors.centerIn: parent
+            //x:100
+            //y:100
+        }
 
 
         Button {

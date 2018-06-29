@@ -40,7 +40,6 @@ HEADERS += \
     clientsocket.h
 
 DISTFILES += \
-    FrmTestForm.ui.qml \
-    FrmTest.qml
+    mttfApplication.rc
 
-
+RC_FILE = mttfApplication.rc
