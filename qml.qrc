@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>main_backup.qml</file>
         <file>Position.qml</file>
-        <file>Test.qml</file>
-        <file>TestForm.ui.qml</file>
+        <file>Main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>Tube.qml</file>
     </qresource>
 </RCC>

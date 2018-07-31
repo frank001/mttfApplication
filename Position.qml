@@ -14,12 +14,13 @@ Item {
     property int xoffset: 0
     property int ycount: 0
     property alias color: pHolder.color
-
+    property alias positionMA: positionMA
+    property alias objectName: pHolder.objectName
     //property alias width: pHolder.width
     //width:parent.width
     Rectangle {     //TODO: make this an object to include 18 times. almost done. Done.
         id:pHolder
-
+        objectName: ""
         width: parent.width
         height: width
         color: "#013605"
@@ -30,6 +31,7 @@ Item {
 
         y:parent.parent.height/2 - height/2 + ycount * 1.5 * height
 
+        signal setPosition(var posid)
 
         Text {
             id:position
@@ -38,19 +40,24 @@ Item {
             font.pointSize: parent.width/6
             text: "8030673"
             MouseArea {
+                id:positionMA
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked:  {
+                onClicked: pHolder.setPosition(pHolder.objectName)
+                /*onClicked:  {
                     var i=0;
                     i++;
                     test1.visible=!test1.visible;
                     test1.positionNumber.text=parent.text;
                     test1.serialNumber.selectAll();
                     test1.serialNumber.focus=true;
-                }
+                }*/
             }
         }
 
+    }
+    Component.onCompleted: {
+        pHolder.setPosition.connect(mainForm.setPosition);
     }
 
 

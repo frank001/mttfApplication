@@ -14,7 +14,7 @@ BackEnd::BackEnd(QObject *parent): QObject(parent) {
     connect(client->socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(gotError(QAbstractSocket::SocketError)));
     //connect(client->socket, &QTcpSocket::error, this, &BackEnd::gotError);
 
-    client->connectSocket();
+    //client->connectSocket();
 
 }
 
