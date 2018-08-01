@@ -129,7 +129,7 @@ Window {
         btnLight1.onClicked: backend.sendClicked("setLight",1);
         btnLight2.onClicked: backend.sendClicked("setLight",2);
         btnLight3.onClicked: backend.sendClicked("setLight",3);
-
+        btnCycleNew.onClicked: mainForm.newCycle();
 
 
         Rectangle {
@@ -253,9 +253,12 @@ Window {
             positionHolder.visible = true;
             //ti.text = addMsg("Application started\n", false);
         }
+        function setPosition(pos, serialnumber) {
+            var i=0;
+            backend.sendClicked("setPosition", "{pos:"+pos+", sn:"+serialnumber+"}");
+        }
 
-
-        function setPosition(pos) {
+        function getPosition(pos) {
             var component;
             var sprite;
             component = Qt.createComponent("Tube.qml");
@@ -264,6 +267,22 @@ Window {
             var i=0;
 
         }
+        function newCycle() {
+            var component;
+            var sprite;
+            component = Qt.createComponent("Cycle.qml");
+            sprite = component.createObject(configHolder, {});
+        }
+        function newCycleExec(description, remarks) {
+            //TODO: escape the texts and unescape them when importing back again.
+            //Maybe here at mttfApplication, or better at mttfControl?
+
+            //backend.sendClicked("newCycle", description + ":" + remarks);
+
+            backend.sendClicked("{ \"command\":\"newCycle\", \"value\": { \"description\":\""+description + "\", \"remarks\":\"" + remarks + "\"}}");
+            var i=0;
+        }
+
     }
 
     function currentTime() {

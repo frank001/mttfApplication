@@ -7,6 +7,7 @@ Item {
     width: 400
     height: 400
     property alias posHolder: posHolder
+    property alias configHolder: configHolder
     property alias btnConnect: btnConnect
     property alias btnDisconnect: btnDisconnect
     property alias debugLog: debugLog
@@ -29,6 +30,8 @@ Item {
     property alias btnLight2: btnLight2
     property alias btnLight3: btnLight3
 
+    property alias btnCycleNew: btnCycleNew
+    property alias btnCycleEdit: btnCycleEdit
     property alias button: button
 
 
@@ -85,46 +88,73 @@ Item {
             }
         }
         Item {
+            //anchors.fill:parent;
+            //layout.alignment:
+            //Layout.alignment: parent.alignment
+
             id: configTab
-            Button {
-                id: btnConnect
-                width: 200
-                text: qsTr("Connect")
-                z: 1
-                anchors.left: parent.left
-                anchors.leftMargin: 1
+            Rectangle {
+                id: configHolder
                 anchors.top: parent.top
-                anchors.topMargin: 1
-            }
-            Button {
-                id: btnDisconnect
-                width: 200
-                text: qsTr("Disconnect")
+                anchors.right: parent.right
                 anchors.left: parent.left
-                anchors.leftMargin: 1
-                anchors.top: btnConnect.bottom
-                anchors.topMargin: 1
-            }
-            ComboBox {
-                id: cbPorts
-                width: 200
-                anchors.top: parent.top
-                anchors.topMargin: 1
-                anchors.left: btnConnect.right
-                anchors.leftMargin: 1
-                //anchors.left:parent.left;
-                //anchors.bottom: parent.bottom;
-            }
+                height: parent.height - bar.height
+                Button {
+                    id: btnConnect
+                    width: 200
+                    text: qsTr("Connect")
+                    anchors.left: parent.left
+                    anchors.leftMargin: 1
+                    anchors.top: parent.top
+                    anchors.topMargin: 1
+                }
+                Button {
+                    id: btnDisconnect
+                    width: 200
+                    text: qsTr("Disconnect")
+                    anchors.left: parent.left
+                    anchors.leftMargin: 1
+                    anchors.top: btnConnect.bottom
+                    anchors.topMargin: 1
+                }
+                ComboBox {
+                    id: cbPorts
+                    width: 200
+                    anchors.top: parent.top
+                    anchors.topMargin: 1
+                    anchors.left: btnConnect.right
+                    anchors.leftMargin: 1
+                    //anchors.left:parent.left;
+                    //anchors.bottom: parent.bottom;
+                }
 
-            ComboBox {
-                id: cbBaudrate
-                width: 200
-                anchors.top: cbPorts.bottom
-                anchors.topMargin: 1
-                anchors.left: btnDisconnect.right
-                anchors.leftMargin: 1
+                ComboBox {
+                    id: cbBaudrate
+                    width: 200
+                    anchors.top: cbPorts.bottom
+                    anchors.topMargin: 1
+                    anchors.left: btnDisconnect.right
+                    anchors.leftMargin: 1
+                }
+                Button {
+                    id: btnCycleNew
+                    width: 200
+                    text: qsTr("New Cycle")
+                    anchors.left: parent.left
+                    anchors.leftMargin: 1
+                    anchors.top: btnDisconnect.bottom
+                    anchors.topMargin: 1
+                }
+                Button {
+                    id: btnCycleEdit
+                    width: 200
+                    text: qsTr("Edit Cycle")
+                    anchors.left: btnCycleNew.right;
+                    anchors.leftMargin: 1
+                    anchors.top: cbBaudrate.bottom
+                    anchors.topMargin: 1
+                }
             }
-
 
         }
         Item {

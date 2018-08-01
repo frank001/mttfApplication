@@ -5,5 +5,7 @@
         <file>Main.qml</file>
         <file>MainForm.ui.qml</file>
         <file>Tube.qml</file>
+        <file>Cycle.qml</file>
+        <file>CycleForm.ui.qml</file>
     </qresource>
 </RCC>

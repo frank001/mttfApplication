@@ -31,7 +31,7 @@ Item {
 
         y:parent.parent.height/2 - height/2 + ycount * 1.5 * height
 
-        signal setPosition(var posid)
+        signal getPosition(var posid)
 
         Text {
             id:position
@@ -43,7 +43,7 @@ Item {
                 id:positionMA
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: pHolder.setPosition(pHolder.objectName)
+                onClicked: pHolder.getPosition(pHolder.objectName)
                 /*onClicked:  {
                     var i=0;
                     i++;
@@ -57,7 +57,7 @@ Item {
 
     }
     Component.onCompleted: {
-        pHolder.setPosition.connect(mainForm.setPosition);
+        pHolder.getPosition.connect(mainForm.getPosition);
     }
 
 
