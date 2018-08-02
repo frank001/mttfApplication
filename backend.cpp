@@ -14,7 +14,7 @@ BackEnd::BackEnd(QObject *parent): QObject(parent) {
     connect(client->socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(gotError(QAbstractSocket::SocketError)));
     //connect(client->socket, &QTcpSocket::error, this, &BackEnd::gotError);
 
-    client->connectSocket();
+    //client->connectSocket();
 
 }
 
@@ -65,8 +65,13 @@ void BackEnd::receivedSomething(QByteArray msg) {
             break;
         case ports:
             jdPorts = jdData;
-
             emit portInfo(jdPorts.toJson());
+            if (bInitialization)
+                sendClicked("getCycle", "");
+            break;
+        case cycle:
+            jdCycle = jdData;
+            emit cycleInfo(jdCycle.toJson());
             if (bInitialization)
                 bInitialization=false;
             break;
