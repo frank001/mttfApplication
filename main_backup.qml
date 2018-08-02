@@ -25,6 +25,7 @@ Window {
         property var machineState : [];
         property var machineConfig : [];
         property var portInfo:[];
+        property var cycleInfo:[];
 
         onStatusChanged: {
             //console.log(currentStatus);
