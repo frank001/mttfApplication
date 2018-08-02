@@ -18,6 +18,7 @@ private:
     QJsonDocument jdConfig;
     QJsonDocument jdState;
     QJsonDocument jdPorts;
+    QJsonDocument jdCycle;
 
 private slots:
     void Configuration();
@@ -25,7 +26,7 @@ private slots:
 public:
     explicit BackEnd(QObject *parent = nullptr);
     bool getStatus();
-    enum eResponse { config, state, ports };
+    enum eResponse { config, state, ports, cycle };
     QJsonObject joPorts;
 
 signals:
@@ -35,6 +36,7 @@ signals:
     void stateChange(QByteArray data);
     void configChange(QByteArray data);
     void portInfo(QByteArray data);
+    void cycleInfo(QByteArray data);
 
 public slots:
     void setStatus(bool newStatus);

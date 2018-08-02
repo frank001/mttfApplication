@@ -218,31 +218,31 @@ Window {
 
             for (i=0;i<3;i++){
                 component = Qt.createComponent("Position.qml");     //1st row
-                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "EMPTY"+j, "xcount": i, "xoffset": 2 , "ycount" : -2 });
+                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "NULL"+j, "xcount": i, "xoffset": 2 , "ycount" : -2 });
                 j++;
 
             }
             for (i=0;i<4;i++){
                 component = Qt.createComponent("Position.qml");     //2nd row
-                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "EMPTY"+j, "xcount": i, "xoffset": 1,  "ycount" : -1 });
+                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "NULL"+j, "xcount": i, "xoffset": 1,  "ycount" : -1 });
                 j++;
             }
             for (i=0;i<5;i++){
                 if (i!==2) {
                     component = Qt.createComponent("Position.qml");     //3rd row (center)
-                    sprite = component.createObject(positions, { "objectName": "position"+j, "text": "EMPTY"+j, "xcount": i, "xoffset": 0, "ycount" : 0 });
+                    sprite = component.createObject(positions, { "objectName": "position"+j, "text": "NULL"+j, "xcount": i, "xoffset": 0, "ycount" : 0 });
                     j++;
                 }
 
             }
             for (i=0;i<4;i++){
                 component = Qt.createComponent("Position.qml");     //4th row
-                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "EMPTY"+j, "xcount": i, "xoffset": 1, "ycount" : 1 });
+                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "NULL"+j, "xcount": i, "xoffset": 1, "ycount" : 1 });
                 j++;
             }
             for (i=0;i<3;i++){
                 component = Qt.createComponent("Position.qml");     //5th row
-                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "EMPTY"+j, "xcount": i, "xoffset": 2, "ycount" : 2, });
+                sprite = component.createObject(positions, { "objectName": "position"+j, "text": "NULL"+j, "xcount": i, "xoffset": 2, "ycount" : 2, });
 
                 j++;
 
@@ -278,9 +278,20 @@ Window {
             //Maybe here at mttfApplication, or better at mttfControl?
 
             //backend.sendClicked("newCycle", description + ":" + remarks);
+            var o = Object.create(null);
+            o.cycle = Object.create(null);
+            o.cycle.description=description;
+            o.cycle.remarks = remarks;
+            o.cycle.positions = [];
+            for (var i=0;i<18;i++) {
+                o.cycle.positions[i] = "pos" + i;
+            }
 
-            backend.sendClicked("{ \"command\":\"newCycle\", \"value\": { \"description\":\""+description + "\", \"remarks\":\"" + remarks + "\"}}");
-            var i=0;
+            var s = JSON.stringify(o);
+            backend.sendClicked("{ \"command\":\"newCycle\", \"value\":"+s+"}");
+
+            //backend.sendClicked("{ \"command\":\"newCycle\", \"value\": { \"cycle\": { \"description\":\""+description + "\", \"remarks\":\"" + remarks + "\"}}}");
+            var j=0;
         }
 
     }

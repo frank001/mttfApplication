@@ -65,8 +65,13 @@ void BackEnd::receivedSomething(QByteArray msg) {
             break;
         case ports:
             jdPorts = jdData;
-
             emit portInfo(jdPorts.toJson());
+            if (bInitialization)
+                sendClicked("getCycle", "");
+            break;
+        case cycle:
+            jdCycle = jdData;
+            emit cycleInfo(jdCycle.toJson());
             if (bInitialization)
                 bInitialization=false;
             break;
